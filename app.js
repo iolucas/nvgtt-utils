@@ -18,6 +18,9 @@ var cfenv = require('cfenv');
 // create a new express server
 var app = express();
 
+//Module to convert json data to csv data 
+var csv = require("./csv.js");
+
 
 app.get('/', function (req, res) {
 	res.send("");
@@ -37,8 +40,23 @@ app.get('/wikipedia-nonreverse-links', function (req, res) {
 	wikipediaDataApi.getPageNonReverseAbstractLinks(page, lang).then(function(links) {
 		res.send(JSON.stringify(links));
 	}, function(err) {
-		res.send("Error while getting links.");
+		res.send(JSON.stringify({error:"Error while getting links."}));
 	});
+});
+
+app.get('/get_csv', function (req, res) {
+	if(req.query.url) {
+
+		csv.getUrlToCsv(req.query.url, function(err, csvData) {
+			//console.log(csvData);
+			if(err)
+				res.send("ERROR")
+			else
+				res.send(csvData);
+		});
+	} else{
+		res.send("ERROR");
+	}
 });
 
 // get the app environment from Cloud Foundry

@@ -65,7 +65,7 @@ function getPageNonReverseAbstractLinks(page, lang) {
                     callback(err);
                 });
                 
-            }, 100);
+            }, 10);
 
             //On all the tasks end
             asyncQueue.drain = function() {
@@ -154,7 +154,7 @@ function getPageAbstractLinks(page, lang) {
                     callback();
                 });
                 
-            }, 100);
+            }, 10);
 
             //On all the tasks end
             asyncQueue.drain = function() {
